@@ -1,3 +1,4 @@
 rootProject.name = 'MSA-MooMarket'
 include "discovery-server"
 include "api-gateway"
+include "user-service"

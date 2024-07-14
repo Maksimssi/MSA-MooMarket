@@ -6,11 +6,11 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-#      routes:
-#        - id: user-service
-#          uri: lb://USER-SERVICE
-#          predicates:
-#            - Path=/user/**, /auth/**
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user/**, /auth/**
 #        - id: event-service
 #          uri: lb://EVENT-SERVICE
 #          predicates:
