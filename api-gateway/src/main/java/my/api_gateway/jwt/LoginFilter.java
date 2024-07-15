@@ -1,29 +1,33 @@
-package my.user_service.jwt;
+package my.api_gateway.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import my.api_gateway.client.UserDTO;
+import my.api_gateway.client.UserServiceClient;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import my.user_service.dto.CustomUserDetails;
+//import my.user_service.dto.CustomUserDetails;
 
-import java.util.Collection;
-import java.util.Iterator;
+//import java.util.Collection;
+//import java.util.Iterator;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-
     private final JWTUtil jwtUtil;
+    private final UserServiceClient userServiceClient;
 
-    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserServiceClient userServiceClient) {
 
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.userServiceClient = userServiceClient;
+        setFilterProcessesUrl("/login");
     }
 
     @Override
@@ -32,7 +36,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
-        System.out.println(username);
+//        System.out.println(username);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
 
@@ -42,17 +46,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
 
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//        String username = customUserDetails.getUsername();
+//
+//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+//        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+//        GrantedAuthority auth = iterator.next();
+//
+//        String role = auth.getAuthority();
+//
+//        String token = jwtUtil.createJwt(username, role, 60 * 60 * 1000L);
 
-        String username = customUserDetails.getUsername();
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-
-        String role = auth.getAuthority();
-
-        String token = jwtUtil.createJwt(username, role, 60 * 60 * 1000L);
+        UserDTO userDTO = userServiceClient.findByUsername(authentication.getName());
+        String token = jwtUtil.createJwt(userDTO.getUsername(), userDTO.getRole(), 60 * 60 * 100000L);
 
         response.addHeader("Authorization", "Bearer " + token);
     }

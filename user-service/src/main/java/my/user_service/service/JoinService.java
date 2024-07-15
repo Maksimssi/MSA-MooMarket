@@ -36,11 +36,15 @@ public class JoinService {
 
         data.setUsername(username);
         data.setPassword(bCryptPasswordEncoder.encode(password));
-        data.setRole("ROLE_USER");
-        data.setPhone(phone);
+//        data.setRole("ROLE_USER");
+//        data.setPhone(phone);
 //        data.setUseraddress(useraddress);
 
         userRepository.save(data);
+    }
+
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 //    public Member findOne(Long memberId) {

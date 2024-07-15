@@ -1,5 +1,9 @@
-package my.user_service.config;
+package my.api_gateway.config;
 
+import my.api_gateway.client.UserServiceClient;
+import my.api_gateway.jwt.JWTFilter;
+import my.api_gateway.jwt.JWTUtil;
+import my.api_gateway.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,9 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//import my.user_service.jwt.JWTFilter;
-//import my.user_service.jwt.JWTUtil;
-//import my.user_service.jwt.LoginFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,12 +21,14 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
 
-//    private final JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
+    private final UserServiceClient userServiceClient;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, UserServiceClient userServiceClient) {
 
         this.authenticationConfiguration = authenticationConfiguration;
-//        this.jwtUtil = jwtUtil;
+        this.jwtUtil = jwtUtil;
+        this.userServiceClient = userServiceClient;
     }
 
     //loginFilter 주입 메서드 bean생성
@@ -65,12 +68,12 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")  //admin경로는 admin만
                         .anyRequest().authenticated());               //나머지는 로그인사용자만 허용
 
-//        //필터 위치, 대체
-//        http
-//                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-//
-//        http
-//                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        //필터 위치, 대체
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil, userServiceClient), LoginFilter.class);
+
+        http
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userServiceClient), UsernamePasswordAuthenticationFilter.class);
 
         //세선 설정 stateless상태로 설정 중요
         http

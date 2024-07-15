@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: api-gateway
+  main:
+    allow-bean-definition-overriding: true
   cloud:
     gateway:
       routes:
@@ -48,6 +50,6 @@ eureka:
 
     logging:
       level:
-        com.hanghae.apigateway: DEBUG
+        my.api_gateway: DEBUG
         org.springframework.security: DEBUG
         org.springframework.web: DEBUG

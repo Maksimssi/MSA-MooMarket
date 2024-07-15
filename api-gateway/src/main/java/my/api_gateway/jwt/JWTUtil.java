@@ -1,4 +1,4 @@
-package my.user_service.jwt;
+package my.api_gateway.jwt;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
