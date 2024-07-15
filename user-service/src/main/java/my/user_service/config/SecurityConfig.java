@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth)-> auth
                         .requestMatchers("/login","/","/join").permitAll()  //해당경로 모두허용
                         .requestMatchers("/admin").hasRole("ADMIN")  //admin경로는 admin만
-                        .anyRequest().authenticated());               //나머지는 로그인사용자만 허용
+                        .anyRequest().permitAll());               //나머지는 로그인사용자만 허용
 
 //        //필터 위치, 대체
 //        http

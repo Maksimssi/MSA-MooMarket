@@ -66,14 +66,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth)-> auth
                         .requestMatchers("/login","/","/join").permitAll()  //해당경로 모두허용
                         .requestMatchers("/admin").hasRole("ADMIN")  //admin경로는 admin만
-                        .anyRequest().authenticated());               //나머지는 로그인사용자만 허용
+                        .anyRequest().permitAll());               //나머지는 로그인사용자만 허용
 
         //필터 위치, 대체
         http
                 .addFilterBefore(new JWTFilter(jwtUtil, userServiceClient), LoginFilter.class);
 
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userServiceClient), UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userServiceClient), UsernamePasswordAuthenticationFilter.class);
 
         //세선 설정 stateless상태로 설정 중요
         http
@@ -82,4 +82,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 }
