@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -51,15 +52,15 @@ public class SecurityConfig {
 
         //csrf disable
         http
-                .csrf((auth) -> auth.disable());
-
-        //Form 로그인 방식 disable
-        http
-                .formLogin((auth) -> auth.disable());
-
-        //http basic 인증 방식 disable
-        http
-                .httpBasic((auth) -> auth.disable());
+                .csrf(AbstractHttpConfigurer::disable)
+//
+//        //Form 로그인 방식 disable
+//        http
+                .formLogin(AbstractHttpConfigurer::disable)
+//
+//        //http basic 인증 방식 disable
+//        http
+                .httpBasic(AbstractHttpConfigurer::disable);
 
         //경로별 인가 설정
         http
@@ -72,8 +73,8 @@ public class SecurityConfig {
         http
                 .addFilterBefore(new JWTFilter(jwtUtil, userServiceClient), LoginFilter.class);
 
-//        http
-//                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userServiceClient), UsernamePasswordAuthenticationFilter.class);
+        http
+                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, userServiceClient), UsernamePasswordAuthenticationFilter.class);
 
         //세선 설정 stateless상태로 설정 중요
         http
