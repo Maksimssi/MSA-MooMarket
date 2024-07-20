@@ -1,4 +1,4 @@
-# 온라인 중고 서점 Genie)
+# 이커머스
 
 * * *
 
@@ -12,30 +12,24 @@
 * * *
 ## 프로젝트 개요  
 
->CRUD 기능을 포함한 REST API를 설계하고 구현하였습니다.<br>
->이를 통해 REST API 작동 방식을 이해하고 관련된 기술과 활용 능력을 습득했습니다.
+>내용 추가
 >
 
 >### 개발 기간 및 인원
->24.02.05 ~ 24.03.22<br>
->백엔드 4명
+>24.06.19 ~ 24.07.16<br>
+>백엔드 1명
 * * *
 ## Stacks
-<div align=center> 
-  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
-  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
-  <br> 
-  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-  <img src="https://img.shields.io/badge/flask-000000?style=for-the-badge&logo=flask&logoColor=white">
-  <br>
-  <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white">
-  <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
-</div>
+- Spring Boot
+- Spring Security
+- JPA / Hibernate
+- MySQL
+- Docker / Docker Compose
 
 * * *
 
 ## ERD
-![MooMarket_ERD]![image](https://github.com/user-attachments/assets/08b1ae09-752e-48bb-abc9-d0c012e95d20)
+!![image](https://github.com/user-attachments/assets/08b1ae09-752e-48bb-abc9-d0c012e95d20)
 
 
 
